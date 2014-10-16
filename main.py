@@ -145,7 +145,14 @@ def render(maze):
   return out
 
 
-def explore(maze, x, y, visited):
+def find_start(maze):
+  for y, line in enumerate(maze):
+    for x, cell in enumerate(line):
+      if cells[cell]['name'] == 'start':
+        return x, y
+
+
+def explore(maze, x, y, visited=[]):
   cell = maze[y][x]
   name = cells[cell]['name']
   dirs = cells[cell]['directions']
@@ -170,7 +177,7 @@ def main():
   maze = interpret(maze)
 
   print(render(maze))
-  print(explore(maze, 2, 0, []))
+  print(explore(maze, *find_start(maze)))
 
 
 if __name__ == '__main__':
