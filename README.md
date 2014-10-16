@@ -3,6 +3,8 @@ Maze
 
 A simple maze solver.
 
+Usage: ```python main.py [maze]```
+
 Mazes are defined with these charicters:
 
 ```
