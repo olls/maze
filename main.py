@@ -154,14 +154,12 @@ def find_start(maze):
 
 def explore(maze, x, y, visited=[]):
   cell = maze[y][x]
-  name = cells[cell]['name']
-  dirs = cells[cell]['directions']
   visited.append((x, y))
 
-  if name == 'end':
+  if cells[cell]['name'] == 'end':
     return True
   else:
-    for exit in dirs.split('-'):
+    for exit in cells[cell]['directions'].split('-'):
       d = directions[exit]
 
       nx, ny = x + d[0], y + d[1]
