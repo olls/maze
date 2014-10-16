@@ -132,14 +132,21 @@ def interpret(maze):
   return new
 
 
-def render(maze):
+def render(maze, highlight=[]):
   out = ''
-  for line in maze:
+  for y, line in enumerate(maze):
     row = ['', '', '']
-    for cell in line:
-      row[0] += ''.join(char * 2 for char in cells[cell]['image'][0])
-      row[1] += ''.join(char * 2 for char in cells[cell]['image'][1])
-      row[2] += ''.join(char * 2 for char in cells[cell]['image'][2])
+    for x, cell in enumerate(line):
+      image = cells[cell]['image']
+      
+
+      for cy in range(3):
+        for cx in range(3):
+          if (x, y) in highlight and image[cy][cx] == ' ':
+            row[cy] += '..'
+          else:
+            row[cy] += image[cy][cx] * 2
+
     out += row[0] + '\n' + row[1] + '\n' + row[2] + '\n'
 
   return out
@@ -157,15 +164,17 @@ def explore(maze, x, y, visited=[]):
   visited.append((x, y))
 
   if cells[cell]['name'] == 'end':
-    return True
+    return []
   else:
     for exit in cells[cell]['directions'].split('-'):
       d = directions[exit]
 
       nx, ny = x + d[0], y + d[1]
       if (nx, ny) not in visited:
-        if explore(maze, nx, ny, visited):
-          return True
+        route = explore(maze, nx, ny, visited)
+        if route is not None:
+          route.append((nx, ny))
+          return route
 
 
 def main():
@@ -175,7 +184,8 @@ def main():
   maze = interpret(maze)
 
   print(render(maze))
-  print(explore(maze, *find_start(maze)))
+  route = explore(maze, *find_start(maze))
+  print(render(maze, route))
 
 
 if __name__ == '__main__':
