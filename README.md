@@ -5,7 +5,7 @@ A simple maze solver.
 
 Usage: ```python main.py [maze]```
 
-Mazes are defined with these charicters:
+Mazes are defined with these characters:
 
 ```
 1: down
